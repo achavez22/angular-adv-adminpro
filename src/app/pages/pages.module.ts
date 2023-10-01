@@ -5,8 +5,12 @@ import { ProgressComponent } from './progress/progress.component';
 import { GraphicsComponent } from './graphics/graphics.component';
 import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from "@angular/forms";
+
+import { NgChartsModule } from 'ng2-charts';
 
 import {RouterModule} from '@angular/router'
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import {RouterModule} from '@angular/router'
   imports: [
     CommonModule, 
     SharedModule, 
-    RouterModule
+    RouterModule, 
+    FormsModule, 
+    ComponentsModule, 
+    NgChartsModule
   ], 
   
 })
