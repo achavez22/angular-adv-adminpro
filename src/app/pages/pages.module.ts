@@ -11,18 +11,21 @@ import { NgChartsModule } from 'ng2-charts';
 
 import {RouterModule} from '@angular/router'
 import { ComponentsModule } from '../components/components.module';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ProgressComponent,
     GraphicsComponent,
+    AccountSettingsComponent, 
     PagesComponent
   ],
   exports: [
     DashboardComponent,
     ProgressComponent,
     GraphicsComponent,
+    AccountSettingsComponent, 
     PagesComponent
   ], 
   imports: [
