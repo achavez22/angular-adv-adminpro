@@ -6,11 +6,11 @@ import { environment } from 'src/environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { User } from '../models/usuario.model';
 
 
 const base_url = environment.base_url;
 declare const google: any;
- 5
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,8 @@ declare const google: any;
 export class UsuarioService {
 
   public auth2: any;
+  public  user: User;
+  
   constructor(private http: HttpClient, 
               private router: Router, 
               private ngZone: NgZone) { 
@@ -64,6 +66,8 @@ googleInit() {
       }
     }).pipe(
       tap( (resp: any) => {
+        const { email, google, name, role, img, uid } = resp.usuario
+        this.user = new User(name, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token );
       }),
       map( resp => true),
