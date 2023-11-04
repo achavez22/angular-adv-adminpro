@@ -19,7 +19,7 @@ declare const google: any;
 export class UsuarioService {
 
   public auth2: any;
-  public  user: User;
+  public user!: User;
   
   constructor(private http: HttpClient, 
               private router: Router, 
@@ -65,12 +65,13 @@ googleInit() {
         'x-token': token
       }
     }).pipe(
-      tap( (resp: any) => {
-        const { email, google, name, role, img, uid } = resp.usuario
+      map( (resp: any) => {
+        const { email, google, name, role, img= '', uid } = resp.usuario
         this.user = new User(name, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token );
+        return true;
       }),
-      map( resp => true),
+      // map( resp => true),
       catchError( error => of(false) )
     );
 
