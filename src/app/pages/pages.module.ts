@@ -5,7 +5,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { GraphicsComponent } from './graphics/graphics.component';
 import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgChartsModule } from 'ng2-charts';
 
@@ -36,6 +36,7 @@ import { ProfileComponent } from './profile/profile.component';
     SharedModule, 
     RouterModule, 
     FormsModule, 
+    ReactiveFormsModule, 
     ComponentsModule, 
     NgChartsModule
   ], 
