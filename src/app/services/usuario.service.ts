@@ -7,6 +7,7 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { User } from '../models/usuario.model';
+import { LoadUsers } from '../interfaces/load-users.interface';
 
 
 const base_url = environment.base_url;
@@ -36,6 +37,16 @@ get token(): string{
 get uid(): string{
   return this.user.uid ||'';
 }
+
+
+
+get headers() {
+  return {headers: {
+    'x-token': this.token
+  }
+}
+}
+
 
 googleInit() {
 
@@ -123,5 +134,12 @@ googleInit() {
         })
       );
    }
+
+
+   loadUsers(from:  number= 0){ 
+      const url = `${base_url}/users?desde=${from}`;
+
+      return this.http.get<LoadUsers>(url, this.headers);
+    }
 
 }

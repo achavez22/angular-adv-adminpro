@@ -15,6 +15,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './maintenance/users/users.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,11 @@ import { ProfileComponent } from './profile/profile.component';
     ProgressComponent,
     GraphicsComponent,
     AccountSettingsComponent, 
-    PagesComponent, PromisesComponent, RxjsComponent, ProfileComponent
+    PagesComponent, 
+    PromisesComponent, 
+    RxjsComponent, 
+    ProfileComponent, 
+    UsersComponent
   ],
   exports: [
     DashboardComponent,
