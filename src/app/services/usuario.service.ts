@@ -139,7 +139,17 @@ googleInit() {
    loadUsers(from:  number= 0){ 
       const url = `${base_url}/users?desde=${from}`;
 
-      return this.http.get<LoadUsers>(url, this.headers);
+      return this.http.get<LoadUsers>(url, this.headers)
+          .pipe(
+            map(resp =>{              
+              const usuarios = resp.usuarios.map(
+                user => new User(user.name, user.email, '', user.img,user.role, user.google,user.uid))
+              return {
+                total: resp.total,
+                usuarios
+              };
+            })
+          )
     }
 
 }

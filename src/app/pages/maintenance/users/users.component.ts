@@ -12,17 +12,37 @@ export class UsersComponent implements OnInit {
 
   public totalUsers:  number = 0;
   public users: User[] = [];
+  public from: number = 0;
 
+  public isLoading: boolean = true;
 
   constructor(private usuarioServer: UsuarioService){ 
 
   }
   ngOnInit(): void {
-    this.usuarioServer.loadUsers(0)
+   this.loadUsers();
+  }
+
+  loadUsers(){
+    this.isLoading = true;
+    this.usuarioServer.loadUsers(this.from)
     .subscribe(({total, usuarios}) => { 
       this.totalUsers = total; 
-      this.users = usuarios;
-      
-    })
+      if(usuarios.length !== 0){
+        this.users = usuarios;        
+      }
+      this.isLoading = false;
+    });
+  }
+
+  changePage(value: number){
+    this.from += value;
+    if (this.from < 0) {
+      this.from = 0;
+    } else if (this.from > this.totalUsers){
+      this.from -= value;
+    }
+
+    this.loadUsers();
   }
 }
