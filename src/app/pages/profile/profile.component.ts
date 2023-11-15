@@ -14,67 +14,67 @@ import Swal from 'sweetalert2';
 export class ProfileComponent implements OnInit {
 
   public profileForm: FormGroup;
-  public user: User; 
-  public imageUpload: File;
+  public user: User;
+  public imageUpload: File | undefined;
   public imgTemp: any = null;
 
-  constructor(private fb: FormBuilder, 
-              private usuarioService: UsuarioService, 
-              private fileUploadService: FileUploadService){ 
-                this.user = usuarioService.user; 
-              }
+  constructor(private fb: FormBuilder,
+    private usuarioService: UsuarioService,
+    private fileUploadService: FileUploadService) {
+    this.user = usuarioService.user;
+  }
   ngOnInit(): void {
-      this.profileForm = this.fb.group({ 
-        name: [this.user.name, Validators.required], 
-        email: [this.user.email, [Validators.required, Validators.email]], 
-      });
-    
+    this.profileForm = this.fb.group({
+      name: [this.user.name, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+    });
+
   }
 
 
-  updateProfile(){ 
+  updateProfile() {
     console.log(this.profileForm.value);
     this.usuarioService.updateProfile(this.profileForm.value)
-      .subscribe(() =>{
+      .subscribe(() => {
         // console.log(resp);
-        const {name, email} = this.profileForm.value;
+        const { name, email } = this.profileForm.value;
         this.user.name = name;
         this.user.email = email;
 
-        Swal.fire('Guardado', 'Los datos del usuario fueron guardados', 'success'); 
-      }, err =>{
+        Swal.fire('Guardado', 'Los datos del usuario fueron guardados', 'success');
+      }, err => {
         // console.log(err);
-        Swal.fire('Error', err.error.msg, 'error'); 
-        
+        Swal.fire('Error', err.error.msg, 'error');
+
       });
-    
+
   }
 
-  changeImage(event:any) {
-    
+  changeImage(event: any) {
+
     this.imageUpload = event.target.files[0];
-    if(!this.imageUpload){
+    if (!this.imageUpload) {
       return this.imgTemp = null;
     }
 
-    const reader  = new FileReader();
-    reader.readAsDataURL(this.imageUpload); 
-    reader.onload = () =>{ 
-      this.imgTemp = reader.result; 
+    const reader = new FileReader();
+    reader.readAsDataURL(this.imageUpload);
+    reader.onload = () => {
+      this.imgTemp = reader.result;
     }
 
 
   }
 
-  uploadImage(){
+  uploadImage() {
     this.fileUploadService.updatePhoto(this.imageUpload, 'usuarios', this.user.uid)
       .then((img: any) => {
         this.user.img = img;
         console.log(img);
-          Swal.fire('Guardado', 'La imagen del usuario se guardo correctamente', 'success');
+        Swal.fire('Guardado', 'La imagen del usuario se guardo correctamente', 'success');
       }, err => {
-        Swal.fire('Error', err.error.msg, 'error'); 
-      }); 
+        Swal.fire('Error', err.error.msg, 'error');
+      });
   }
 
 }

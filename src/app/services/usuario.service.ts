@@ -10,6 +10,7 @@ import { User } from '../models/usuario.model';
 import { LoadUsers } from '../interfaces/load-users.interface';
 
 
+
 const base_url = environment.base_url;
 declare const google: any;
 
@@ -106,13 +107,11 @@ googleInit() {
   }
 
   updateProfile(data: {email:string,  name:string, role: string}){
-    data = {
-      ...data, 
-      role: this.user.role
-    }
-    return this.http.put(`${base_url}/users/${this.uid}`, data,  { headers: {
-      'x-token': this.token
-    }})
+   data = { 
+    ...data,
+    role: this.user.role,
+   }
+    return this.http.put(`${base_url}/users/${this.uid}`, data, this.headers)
   }
 
   loginUser(formData: LoginForm){
@@ -150,6 +149,16 @@ googleInit() {
               };
             })
           )
+    }
+
+    deleteUser(user:  User){ 
+      const url = `${base_url}/users/${user.uid}`;
+      return this.http.delete(url, this.headers); 
+    }
+
+    saveUser(user: User){
+   
+      return this.http.put(`${base_url}/users/${user.uid}`, user, this.headers)
     }
 
 }
