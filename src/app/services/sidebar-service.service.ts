@@ -48,7 +48,7 @@ export class SidebarServiceService {
         }, 
         {
           title: 'Hospitales',
-          url: 'Hospitales' 
+          url: 'hospitales' 
         }, 
        
       ],
