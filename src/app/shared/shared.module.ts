@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { BrandcrumbsComponent } from './brandcrumbs/brandcrumbs.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -16,7 +17,8 @@ import { HeaderComponent } from './header/header.component';
   ],
   imports: [
     CommonModule, 
-    RouterModule
+    RouterModule, 
+    FormsModule
   ], 
   
   exports: [

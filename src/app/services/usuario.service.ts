@@ -39,7 +39,9 @@ get uid(): string{
   return this.user.uid ||'';
 }
 
-
+get role(): 'ADMIN_ROLE' | 'USER_ROLE'{
+  return this.user.role; 
+}
 
 get headers() {
   return {headers: {
@@ -64,9 +66,15 @@ googleInit() {
 
 }
 
+  saveLocalStorage(token: string, menu: any) {
+    localStorage.setItem('token', token );
+    localStorage.setItem('menu', JSON.stringify(menu));
+  }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
+
     const email = localStorage.getItem('email')|| '';
     this.router.navigateByUrl('/login');
     // google.accounts.id.revoke(email, () => {
@@ -87,7 +95,8 @@ googleInit() {
       map( (resp: any) => {
         const { email, google, name, role, img= '', uid } = resp.usuario
         this.user = new User(name, email, '', img, google, role, uid);
-        localStorage.setItem('token', resp.token );
+        this.saveLocalStorage(resp.token, resp.menu);
+      
         return true;
       }),
       // map( resp => true),
@@ -100,7 +109,7 @@ googleInit() {
    return this.http.post(`${base_url}/users`, formData)
    .pipe(
     tap( (resp: any) => {
-      localStorage.setItem('token', resp.token)
+      this.saveLocalStorage(resp.token,resp.menu);
     })
   ); ; 
 
@@ -109,7 +118,7 @@ googleInit() {
   updateProfile(data: {email:string,  name:string, role: string}){
    data = { 
     ...data,
-    role: this.user.role,
+    role: this.user.role!,
    }
     return this.http.put(`${base_url}/users/${this.uid}`, data, this.headers)
   }
@@ -118,7 +127,8 @@ googleInit() {
     return this.http.post(`${base_url}/login`, formData)
     .pipe(
       tap( (resp: any) => {
-        localStorage.setItem('token', resp.token)
+        this.saveLocalStorage(resp.token, resp.menu);
+        
       })
     ); 
    }
@@ -128,7 +138,7 @@ googleInit() {
       return this.http.post(`${base_url}/login/google`, {token})
       .pipe(
         tap( (resp: any) => {
-          localStorage.setItem('token', resp.token)
+          this.saveLocalStorage(resp.token, resp.menu);
           localStorage.setItem('email',resp.email)
         })
       );
